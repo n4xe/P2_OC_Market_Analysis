@@ -7,12 +7,10 @@ from urllib.parse import urljoin
 
 list_title = []
 list_price = []
-#elements = [] est- it possible de regrouper "title" et "price" dans une classe "elements" et de pouvoir faire qu'un boucle for?
 
 # Session conserve les cookies entre les requêtes
 
 with requests.Session() as session:
-    page_number = 1
     url_fiction_category = "http://books.toscrape.com/catalogue/category/books/fiction_10/index.html"
     page_fiction_category = requests.get(url_fiction_category)
     while True:
@@ -33,7 +31,6 @@ with requests.Session() as session:
             break
 
         url_fiction_category = urljoin(url_fiction_category, next_link["href"])
-        page_number += 1
 
 #ecriture du csv avec les résultats des pages
 

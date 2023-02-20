@@ -12,4 +12,3 @@ for titles in title:
 price = soup.find_all("p", class_="price_color")
 for prices in price:
     print(prices.string)
-
