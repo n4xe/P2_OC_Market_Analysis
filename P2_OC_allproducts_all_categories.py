@@ -1,5 +1,6 @@
 import csv
 import requests
+import os
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
@@ -34,13 +35,6 @@ for key in clean_category_names:
         clean_category_links.remove(value)
         break
 print(links_per_categories_dic)
-'''
-with open('Categories_links.csv', 'w') as csv_file_link:
-    writer = csv.writer(csv_file_link, delimiter=",")
-    for i in range(len(list_categories_cleaned)):
-        lign = [list_categories_cleaned[i]]
-        writer.writerow(lign)
-'''
 
 # Déclaration des listes titres et prix
 list_title = []
@@ -48,6 +42,10 @@ list_price = []
 
 # Session conserve les cookies entre les requêtes
 for items in links_per_categories_dic.items():
+    print (items)
+    print(list_title)
+    list_title.clear()
+    list_price.clear()
     url_actuel = items[1]
     while True:
         page_request = requests.get(url_actuel)
@@ -63,19 +61,17 @@ for items in links_per_categories_dic.items():
 #on cherche dans les balises <a> le texte next avec bs, qui nous permettra de le coller à notre url initial grâce à urljoin
         next_link = soup.find("a", text="next")
         if next_link is None:
+            header = ["Titles", "Prices"]
+            filename = "Extract {}.csv".format(items[0])
+            filepath = (r"C:\Users\valen\OneDrive\Bureau\extract books csv")
+            path = os.path.join(filepath, filename)
+            with open(path, 'w') as csv_file:
+                writer = csv.writer(csv_file, delimiter=",")
+                writer.writerow(header)
+                for i in range(len(list_title)):
+                    lign = [list_title[i], list_price[i]]
+                    writer.writerow(lign)
             break
-
         url_actuel = urljoin(url_actuel, next_link["href"])
-        print (url_actuel)
 
 
-
-
-#ecriture du csv avec les résultats des pages
-header = ["Titles", "Prices"]
-with open('Extracttest.csv', 'w') as csv_file:
-    writer = csv.writer(csv_file, delimiter=",")
-    writer.writerow(header)
-    for i in range(len(list_title)):
-        lign = [list_title[i], list_price[i]]
-        writer.writerow(lign)
