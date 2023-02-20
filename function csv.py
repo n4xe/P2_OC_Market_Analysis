@@ -1,7 +1,8 @@
 
-def fonction_csv(categories,titles,prices):
+def fonction_csv():
+    global categories, titles, prices
     for c in categories:
-        with open("Categories_", {categories}*, ".csv", "w") as csv_file:
+        with open("Categories_", {c}, ".csv", "w") as csv_file:
             writer = csv.writer(csv_file, delimiter=",")
             header = ["Titles", "Prices"]
             for i in range(len(titles)):
@@ -12,4 +13,4 @@ def fonction_csv(categories,titles,prices):
 categories = ["Fiction, Aventure"]
 titles = ["Bonjour", "Lavie"]
 prices = ["52.2€", "58.2€"]
-fonction_csv(categories,titles,prices)
+fonction_csv()

@@ -9,7 +9,7 @@ url_index_page = "http://books.toscrape.com/catalogue/category/books_1/index.htm
 index_page = requests.get(url_index_page)
 soup = BeautifulSoup(index_page.content, 'html.parser')
 
-#Je créé un dictionnaire qui récupèrera les liens de chaque catégories
+#Je créé un dictionnaire qui récupèrera les liens de chaque catégories avec pour clé les catégories et pour valeur les liens
 dirty_category_names = []
 dirty_category_links = []
 link_tags = soup.find_all("li", class_=None)
@@ -24,8 +24,8 @@ for links in link_tags:
     n = 2
     del clean_category_links[:n]
     del clean_category_names[:n]
-print(clean_category_links)
-print(clean_category_names)
+#print(clean_category_links)
+#print(clean_category_names)
 
 links_per_categories_dic = {}
 for key in clean_category_names:
@@ -42,39 +42,32 @@ with open('Categories_links.csv', 'w') as csv_file_link:
         writer.writerow(lign)
 '''
 
-
-"""# Déclaration des listes titres et prix
+# Déclaration des listes titres et prix
 list_title = []
 list_price = []
-#elements = [] est- it possible de regrouper "title" et "price" dans une classe "elements" et de pouvoir faire qu'un boucle for?
-urls = list_categories_cleaned
+
 # Session conserve les cookies entre les requêtes
-url_position = 1
-for n in range(len(urls)):
+for items in links_per_categories_dic.items():
+    url_actuel = items[1]
+    while True:
+        page_request = requests.get(url_actuel)
+        soup = BeautifulSoup(page_request.content, 'html.parser')
 
-    print(url_position)
-    with requests.Session() as session:
-        url_actuel = urls[url_position]
-        page_actuelle = requests.get(url_actuel)
-        while True:
-            page_request = session.get(url_actuel)
-            soup = BeautifulSoup(page_request.content, 'html.parser')
+        title = soup.find_all("h3")
+        for titles in title:
+            list_title.append(titles.string)
+        price = soup.find_all("p", class_="price_color")
+        for prices in price:
+            list_price.append(prices.string)
 
-            title = soup.find_all("h3")
-            for titles in title:
-                list_title.append(titles.string)
+#on cherche dans les balises <a> le texte next avec bs, qui nous permettra de le coller à notre url initial grâce à urljoin
+        next_link = soup.find("a", text="next")
+        if next_link is None:
+            break
 
-            price = soup.find_all("p", class_="price_color")
-            for prices in price:
-                list_price.append(prices.string)
+        url_actuel = urljoin(url_actuel, next_link["href"])
+        print (url_actuel)
 
-    #on cherche dans les balises <a> le texte next avec bs, qui nous permettra de le coller à notre url initial grâce à urljoin
-            next_link = soup.find("a", text="next")
-            if next_link is None:
-                url_position += 1
-                break
-            url_actuel = urljoin(url_actuel, next_link["href"])
-        print(list_title)
 
 
 
@@ -86,4 +79,3 @@ with open('Extracttest.csv', 'w') as csv_file:
     for i in range(len(list_title)):
         lign = [list_title[i], list_price[i]]
         writer.writerow(lign)
-"""
