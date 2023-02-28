@@ -29,8 +29,8 @@ for links in link_tags:
 
     # Nettoyage des liens créés pour qu'ils soient fonctionnels
     clean_category_links = [e.replace('../', '') for e in dirty_category_links]
-    clean_n_category_names = [b.replace(" ", "") for b in dirty_category_names]
-    clean_category_names = [b.replace('\n', '') for b in clean_n_category_names]
+    clean_n_category_names = [e.replace(" ", "") for e in dirty_category_names]
+    clean_category_names = [e.replace('\n', '') for e in clean_n_category_names]
     n = 2
     del clean_category_links[:n]  # Suppression des deux premiers éléments de la liste qui ne sont pas des catégories
     del clean_category_names[:n]
@@ -129,13 +129,13 @@ for items in links_per_categories_dic.items():
             list_image.clear()
 
             """
-            Break répond à isNone :
-            s'il n'ya pas de next link, on ne recommence pas la boucle et on change de catégorie
-            """
+                Break répond à isNone :
+                s'il n'ya pas de next link, on ne recommence pas la boucle et on change de catégorie
+                """
             break
 
         """
-        Sinon, on recommence la boucle avec le next link
-        qui est un url join de l'url de la catégorie et de l'url de la page suivante
-        """
+            Sinon, on recommence la boucle avec le next link
+            qui est un url join de l'url de la catégorie et de l'url de la page suivante
+            """
         url_actuel = urljoin(url_actuel, next_link["href"])
