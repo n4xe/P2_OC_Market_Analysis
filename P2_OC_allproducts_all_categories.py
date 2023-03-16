@@ -1,141 +1,151 @@
 import csv
 import requests
 import os
+import re
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+from function_clean_links import clinks
+from function_clean_names import cnames
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+ETAPE 1 : RECUPERER LES CATEGORIES ET LES LIENS VIA LA PAGE D'ACCUEIL (INDEX) 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+url_index_page = "http://books.toscrape.com/catalogue/category/books_1/index.html"  # URL de la page
+index_page = requests.get(url_index_page)  # Utilisation de Request
+soup = BeautifulSoup(index_page.content, 'html.parser')  # Utilisation de BS4 pour parser
 
 """
-Listage de tous les liens de la page d'accueil qui me serviront
-à les visiter 1 par 1 puis à récupérer les données par lien
+1.a Récupérations des noms et des liens de chaque catégorie
 """
 
-url_index_page = "http://books.toscrape.com/catalogue/category/books_1/index.html"
-index_page = requests.get(url_index_page)
-soup = BeautifulSoup(index_page.content, 'html.parser')
+dirty_category_names = []  # Liste de noms de catégories non nettoyés
+dirty_category_links = []  # Liste de liens de catégories non nettoyés
 
-"""
-Je créé un dictionnaire qui récupèrera les liens de chaque catégories
-avec pour clé les catégories et pour valeur les liens
-"""
-dirty_category_names = []  # il faudra nettoyer les bouts de liens html récupérés pour qu'ils soient fonctionnels
-dirty_category_links = []
-link_tags = soup.find_all("li", class_=None)
+link_tags = soup.find_all("li", class_=None)  # Recherche de toutes les balises "li" qui n'ont pas de classe
 
 for links in link_tags:
     a = links.find("a")
-    href = a["href"]
-    dirty_category_links.append("http://books.toscrape.com/catalogue/category/" + href)  # Ajout des liens dans la liste
-    dirty_category_names.append(a.text)
+    href = a["href"]  # Recherche des href dans les balises a pour chacunes des balises "li"
 
-    # Nettoyage des liens créés pour qu'ils soient fonctionnels
-    clean_category_links = [e.replace('../', '') for e in dirty_category_links]
-    clean_n_category_names = [e.replace(" ", "") for e in dirty_category_names]
-    clean_category_names = [e.replace('\n', '') for e in clean_n_category_names]
-    n = 2
-    del clean_category_links[:n]  # Suppression des deux premiers éléments de la liste qui ne sont pas des catégories
-    del clean_category_names[:n]
-
-# Création d'un dictionnaire - ajout des items de la liste de liens comme valeurs et des items de la liste de comme clés
-links_per_categories_dic = {}
-for key in clean_category_names:
-    for value in clean_category_links:
-        links_per_categories_dic[key] = value
-        clean_category_links.remove(value)
-        break
-
-# Déclaration des listes titres, prix et images
-list_title = []
-list_price = []
-list_image = []
+    dirty_category_names.append(a.text)  # Ajout des noms de catégories non nettoyées
+    dirty_category_links.append("http://books.toscrape.com/catalogue/category//" + href)
+    # Ajout des liens non nettoyés dans la liste
 
 """
-Création d'une boucle for
-qui viendra appliquer pour chaque valeur du dictionnaire (lien des catégories) le code dans la boucle for
+1.b Nettoyage des noms et des liens de chaque catégorie
 """
-for items in links_per_categories_dic.items():
-    url_actuel = items[1]  # Premier URL = 1ere valeur du dictionnaire, soit le lien de la catégorie 'travel'
-    while True:  # Boucle while true qui viendrant confirmer si il y a un lien "next" ou non pour la pagination
-        page_request = requests.get(url_actuel)
+
+# Nettoyage des liens et des noms créés pour qu'ils soient fonctionnels grâce à des fonctions créées
+cleaned_names = cnames(names=dirty_category_names)
+cleaned_links = clinks(links=dirty_category_links)
+
+# Création du dictionnaire Nom/Liens
+category_links_dictionary = {"Names": cleaned_names, "Links": cleaned_links}
+
+# print(category_links_dictionary)
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+ETAPE 2 : PARCOURIR CHAQUE LIEN ET APPLIQUER UNE BOUCLE DE SCRAPPING 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""
+2.a Déclaration des éléments voulus + Création de la boucle for (itération range catégorie, soit 40)
+"""
+
+liste_elements = ["product_page_urls", "upc", "title", "prices_inc_tax", "prices_ex_tax", "nb_available",
+                  "product description", "category", "review", "image"]
+
+for category in (range(len(cleaned_links))):
+
+    # Premier URL = 1ere valeur du dictionnaire soit le lien de la catégorie 'travel'
+    url_actuel = cleaned_links[category]
+    actual_category = cleaned_names[category]
+    print(actual_category + " category is being scrapped")
+
+    """
+    2.b Création du dossier de récupération des fichiers + images
+    """
+
+    repository_folder = \
+        (r"C:\Users\valen\OneDrive\Bureau\extract books csv\{} folder extract".format(cleaned_names[category]))
+
+    os.makedirs(repository_folder, exist_ok=True)  # Si le dossier existe déjà, alors cela ne le recréé pas
+    print\
+        (cleaned_names[category] + " folder has been created" + " Please find the link after : " + repository_folder)
+
+    # Déclaration du nom du fichier csv de la catégorie (on utilise les clés du dictionnaire)
+    filename = "Extract from {}.csv".format(actual_category)
+
+    # Chemin = chemin du repository + nom du fichier
+    path = os.path.join(repository_folder, filename)
+
+    with open(path, 'w') as csv_file:  # Création du csv avec comme en-tête les éléments voulus
+        writer = csv.writer(csv_file, delimiter=",")
+        writer.writerow(liste_elements)
+
+    """
+     2.c Boucle tant que qui ira dans les liens de chaque catégories qui viendra verifier la présence d'un lien next
+     pour la pagination
+    """
+
+    while True:
+        page_request = requests.get(url_actuel)  # Parcours de la page de la catégorie
         soup = BeautifulSoup(page_request.content, 'html.parser')
+        book_link_tags = soup.find_all("div", class_="image_container")
 
-        title = soup.find_all("h3")
+        page_books = []
+        for books in book_link_tags: # on va chaqun des livres de la catégorie, page n
+            a_book = books.find("a")
+            href_book = a_book["href"]
+            page_books.append("http://books.toscrape.com/catalogue/" + href_book)
+            page_books = [e.replace('../', '') for e in page_books]
 
-        for titles in title:
-            list_title.append(titles.string)  # Ajout des titres de la page visitée (grace au lien)
+            for elements in range(len(page_books)):
+                page_request = requests.get(page_books[elements])
+                soup_book = BeautifulSoup(page_request.content, 'html.parser')
+                product_page_url = page_books[elements]
 
-            # Nettoyage des titres pour les utiliser comme nommage des images
-            name_file = [e.replace(' ...', '') for e in list_title]
-            name_file_1 = [e.replace(' ', '_') for e in name_file]
-            name_file_2 = [e.replace("'", '_') for e in name_file_1]
-            name_file_3 = [e.replace("’", '_') for e in name_file_2]
-            name_file_4 = [e.replace(",", '_') for e in name_file_3]
-            name_file_5 = [e.replace(":", '') for e in name_file_4]
-            name_file_6 = [e.replace(".", '') for e in name_file_5]
-            name_file_7 = [e.replace("/", '') for e in name_file_6]
-            name_file_8 = [e.replace("?", '') for e in name_file_7]
-            name_file_9 = [e.replace("*", '') for e in name_file_8]
-            name_file_10 = [e.replace('"', '') for e in name_file_9]
+                data = []
+                data.append(product_page_url)
 
-        price = soup.find_all("p", class_="price_color")  # Ajout des prix de la page visitée (grace au lien)
-        for prices in price:
-            list_price.append(prices.string)
+                table = soup_book.find("table", attrs={"class": "table table-striped"})
+                for i in table.find_all("td"):
+                    td = i.text
+                    data.append(td)
+                title = soup_book.find("h1")
+                ctitle = title.string
+                data.append(ctitle)
 
-        image = soup.find_all("div", class_="image_container")  # Ajout des images de la page visitée (grace au lien)
-        for images in image:
-            b = images.find("img")
-            src_image = b["src"]
-            # Récupération du lien url racine présent dans le html
-            src_image_root = requests.compat.urljoin(url_actuel, src_image)
-            list_image.append(src_image_root)
+                product_description = soup_book.find("p", class_=None)
+                data.append(product_description)
 
-        """
-        Recherche dans les balises <a> le texte 'next' avec bs
-        qui nous permettra de coller le chemin du next à notre url initial grâce à urljoin
-        """
+                image = soup_book.find("img")
+                src = image["src"]
+                src_image_root = requests.compat.urljoin(product_page_url, src)
+                data.append(src_image_root)
+
+                to_remov = {",": "", "\;": "", "\.": "", "\:": "", "\!": "", "\?": "", "\)": "", "\(": "", " ": "_",
+                            "'": "_", "__": "_"}
+                for char in to_remov.keys():
+                    ctitle = re.sub(char, to_remov[char], ctitle)
+
+                image_save = "{}.jpg".format(ctitle)
+                path_image = os.path.join(repository_folder, image_save)
+                webs = requests.get(src_image_root)
+                with open(path_image, 'wb') as f:
+                    f.write(webs.content)
+
+                data.append(cleaned_names[category])
+
+                with open(path, 'a') as csv_file:
+                    writer = csv.writer(csv_file)
+                    writer.writerow(data)
+                    data.clear()
+                    page_books.clear()
 
         next_link = soup.find("a", text="next")
-        if next_link is None:  # S'il n y a pas de lien next, alors
-
-            # Création d'un dossier de la catégorie concernée (en premier Travel)
-            repository_folder = (r"C:\Users\valen\OneDrive\Bureau\extract books csv\{} folder extract".format(items[0]))
-            os.makedirs(repository_folder, exist_ok=True)  # S'il existe déjà, alors cela ne le recréé pas
-            # Déclaration du nom du fichier csv de la catégorie (on utilise les clés du dictionnaire)
-            filename = "Extract {}.csv".format(items[0])
-            # Le chemin sera donc la composition du chemin du dossier + le nom du fichier
-            path = os.path.join(repository_folder, filename)
-            header = ["Titles", "Prices"]  # Headers de mon CSV
-
-            with open(path, 'w') as csv_file:  # Création du CSV
-                writer = csv.writer(csv_file, delimiter=",")
-                writer.writerow(header)
-
-                for i in range(len(list_title)):
-                    lign = [list_title[i], list_price[i]]  # Ecriture des titres et prix
-                    writer.writerow(lign)
-                    webs = requests.get(list_image[i])  # Récupération des images affiliées au titre dans 'list_image'
-                    image_name = "{}.jpg".format(name_file_10[i])  # Nommage conventionel de l'image 'name_file_10'
-                    path_image = os.path.join(repository_folder, image_name)
-
-                    """
-                    A chaque titre/prix écrit dans le csv
-                    l'image en jpg est créée dans le dossier de la catégorie du livre avec pour nom le nom du livre
-                    """
-                    with open(path_image, 'wb') as f:
-                        f.write(webs.content)
-
-            # Suppression des données des listes pour recommencer la boucle avec nouvelle catégorie
-            list_title.clear()
-            list_price.clear()
-            list_image.clear()
-
-            """
-                Break répond à isNone :
-                s'il n'ya pas de next link, on ne recommence pas la boucle et on change de catégorie
-                """
-            break
-
-        """
-            Sinon, on recommence la boucle avec le next link
-            qui est un url join de l'url de la catégorie et de l'url de la page suivante
-            """
+        if next_link is None:
+            print("{} category scraped".format(actual_category))
+        break
         url_actuel = urljoin(url_actuel, next_link["href"])
