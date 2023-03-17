@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from function_clean_links import clinks
 from function_clean_names import cnames
+#-*- coding: utf-8 -*-
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -80,7 +81,7 @@ for category in (range(len(cleaned_links))):
     # Chemin = chemin du repository + nom du fichier
     path = os.path.join(repository_folder, filename)
 
-    with open(path, 'w') as csv_file:  # Création du csv avec comme en-tête les éléments voulus
+    with open(path, 'w', encoding="utf-8") as csv_file:  # Création du csv avec comme en-tête les éléments voulus
         writer = csv.writer(csv_file, delimiter=",")
         writer.writerow(liste_elements)
 
@@ -90,16 +91,25 @@ for category in (range(len(cleaned_links))):
     """
 
     while True:
-        page_request = requests.get(url_actuel)  # Parcours de la page de la catégorie
+        page_request = requests.get(url_actuel)  # Parcours de la page de la catégorie représentée par url_actuel
         soup = BeautifulSoup(page_request.content, 'html.parser')
-        book_link_tags = soup.find_all("div", class_="image_container")
+        book_link_tags = soup.find_all("div", class_="image_container") # scraping de tous les liens
+        # des livres de la page n
+
 
         page_books = []
-        for books in book_link_tags: # on va chaqun des livres de la catégorie, page n
+        #  future liste des urls de chaque livre de la page
+
+        for books in book_link_tags:  # on va dans chacun des livres de la catégorie, page n
             a_book = books.find("a")
-            href_book = a_book["href"]
-            page_books.append("http://books.toscrape.com/catalogue/" + href_book)
+            href_book = a_book["href"]  # puis on cherche les hrefs (liens)
+            page_books.append("http://books.toscrape.com/catalogue/" + href_book)  # que l'on collera à la suite
             page_books = [e.replace('../', '') for e in page_books]
+
+            """
+                2.d Pour chaque liens de la liste "page_books", soient tous les livres d'une page, il faudra
+                scrapper toutes les infos voulues en rentrant un par un dans chaque livre
+            """
 
             for elements in range(len(page_books)):
                 page_request = requests.get(page_books[elements])
@@ -124,11 +134,14 @@ for category in (range(len(cleaned_links))):
                 src = image["src"]
                 src_image_root = requests.compat.urljoin(product_page_url, src)
                 data.append(src_image_root)
+                print(data)
 
                 to_remov = {",": "", "\;": "", "\.": "", "\:": "", "\!": "", "\?": "", "\)": "", "\(": "", " ": "_",
-                            "'": "_", "__": "_"}
+                            "\*": "_", "\/": "_", "\-":"_", '"':'_', "'": "_", "__": "_"}
                 for char in to_remov.keys():
                     ctitle = re.sub(char, to_remov[char], ctitle)
+
+                ctitle = (ctitle[:150] + '..') if len(ctitle) > 150 else ctitle
 
                 image_save = "{}.jpg".format(ctitle)
                 path_image = os.path.join(repository_folder, image_save)
@@ -138,7 +151,7 @@ for category in (range(len(cleaned_links))):
 
                 data.append(cleaned_names[category])
 
-                with open(path, 'a') as csv_file:
+                with open(path, 'a', encoding="utf-8") as csv_file:
                     writer = csv.writer(csv_file)
                     writer.writerow(data)
                     data.clear()
@@ -147,5 +160,5 @@ for category in (range(len(cleaned_links))):
         next_link = soup.find("a", text="next")
         if next_link is None:
             print("{} category scraped".format(actual_category))
-        break
+            break
         url_actuel = urljoin(url_actuel, next_link["href"])
