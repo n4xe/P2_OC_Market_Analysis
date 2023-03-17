@@ -54,7 +54,7 @@ ETAPE 2 : PARCOURIR CHAQUE LIEN ET APPLIQUER UNE BOUCLE DE SCRAPPING
 2.a Déclaration des éléments voulus + Création de la boucle for (itération range catégorie, soit 40)
 """
 
-liste_elements = ["product_page_urls", "upc", "title", "prices_inc_tax", "prices_ex_tax", "nb_available",
+liste_elements = ["product_page_urls", "title", "upc", "prices_inc_tax", "prices_ex_tax", "nb_available",
                   "product description", "category", "review", "image"]
 
 for category in (range(len(cleaned_links))):
@@ -106,59 +106,77 @@ for category in (range(len(cleaned_links))):
             page_books.append("http://books.toscrape.com/catalogue/" + href_book)  # que l'on collera à la suite
             page_books = [e.replace('../', '') for e in page_books]
 
-            """
-                2.d Pour chaque liens de la liste "page_books", soient tous les livres d'une page, il faudra
-                scrapper toutes les infos voulues en rentrant un par un dans chaque livre
-            """
+"""
+            2.d Pour chaque liens de la liste "page_books", soient tous les livres d'une page, il faudra
+            scrapper toutes les infos voulues en rentrant un par un dans chaque livre
+"""
 
             for elements in range(len(page_books)):
                 page_request = requests.get(page_books[elements])
                 soup_book = BeautifulSoup(page_request.content, 'html.parser')
                 product_page_url = page_books[elements]
 
+                # Data est ma liste de données scrappées (elle sera enregistrée dans le csv puis effacée
+                # à chaque fin de boucle
                 data = []
-                data.append(product_page_url)
+
+                data.append(product_page_url)  # Premier élément demandé : url du livre
+
+                title = soup_book.find("h1")
+                ctitle = title.string
+                data.append(ctitle)  # Titre du livre
 
                 table = soup_book.find("table", attrs={"class": "table table-striped"})
                 for i in table.find_all("td"):
                     td = i.text
-                    data.append(td)
-                title = soup_book.find("h1")
-                ctitle = title.string
-                data.append(ctitle)
+                    data.append(td)  # Upc, prix, disponibilité
 
                 product_description = soup_book.find("p", class_=None)
-                data.append(product_description)
+                data.append(product_description)  # Description du produit
 
                 image = soup_book.find("img")
                 src = image["src"]
                 src_image_root = requests.compat.urljoin(product_page_url, src)
-                data.append(src_image_root)
+                data.append(src_image_root)  # url de l'image prise directement à la source dans le html
+
+                data.append(cleaned_names[category])  # Categorie
+
+                del data[6]  # On supprime les éléments en trop (à cause du scrapping tu tableau)
+                del data[8]
+
                 print(data)
+
+"""
+                2.e Formattage du titre du livre pour enregistrer et nommer l'image correspondante en jpg 
+                + enregistrement dans le dossier de la catégorie
+"""
 
                 to_remov = {",": "", "\;": "", "\.": "", "\:": "", "\!": "", "\?": "", "\)": "", "\(": "", " ": "_",
                             "\*": "_", "\/": "_", "\-":"_", '"':'_', "'": "_", "__": "_"}
                 for char in to_remov.keys():
                     ctitle = re.sub(char, to_remov[char], ctitle)
 
+                # Si le titre de l'image > 150 caractères, on le raccourcit pour pouvoir l'enregistrer
                 ctitle = (ctitle[:150] + '..') if len(ctitle) > 150 else ctitle
 
                 image_save = "{}.jpg".format(ctitle)
                 path_image = os.path.join(repository_folder, image_save)
                 webs = requests.get(src_image_root)
                 with open(path_image, 'wb') as f:
-                    f.write(webs.content)
+                    f.write(webs.content) # enregistrement de l'image jpg dans le dossier
 
-                data.append(cleaned_names[category])
-
+"""
+                2.f Ajout des data en faisant une mise à jour du csv créé initialement
+"""
                 with open(path, 'a', encoding="utf-8") as csv_file:
                     writer = csv.writer(csv_file)
                     writer.writerow(data)
                     data.clear()
                     page_books.clear()
 
-        next_link = soup.find("a", text="next")
-        if next_link is None:
+        next_link = soup.find("a", text="next") # On recherche un lien next
+        if next_link is None: # Si pas de lien next, on passe à la catégorie suivante (ferme la boucle while)
             print("{} category scraped".format(actual_category))
             break
+        # sinon, on joint l'url actuel en y collant le href pour effectuer la pagination
         url_actuel = urljoin(url_actuel, next_link["href"])
