@@ -8,9 +8,9 @@ from utils import clinks
 
 print("Hello, welcome to the Web Book Scrapping program made for the Books Online company.\n"
       "This program will scrap all required and useful data from the website http://books.toscrape.com/.\n"
-      "If you have any issues with the present program please send an email at : valentin.simioni.outlook.com\n")
+      "If you have any issues with the present program please send an email at : valentin.simioni@outlook.com\n")
 
-input("\n \n                      !Press enter to continue and scrap book data! ")
+input("\n \n                      !Press enter to continue and scrap book data! \n \n  ")
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -63,8 +63,12 @@ STEP 2 : SCAN OF EACH CATEGORY LINKS BY APPLYING A SCRAPPING LOOP
 
 liste_elements = ["product_page_urls", "title", "upc", "prices_inc_tax", "prices_ex_tax", "nb_available", "rating"
                   "product description", "category", "review", "image"]
-
+events_count = len(cleaned_links)
+updates = 0
 for category in (range(len(cleaned_links))):
+    for i, e in enumerate(cleaned_links):
+        finished = 100 * (i / events_count)
+
 
     # First ULR == 1st dict value == "travel" category link. Will take next one after the end of the loop.
     url_actuel = cleaned_links[category]
@@ -149,11 +153,16 @@ for category in (range(len(cleaned_links))):
                 for value in reviews.values():
                     rating_par = rating.find("p", class_="{}".format(value))
                     if rating_par is not None:
-                        print("{}".format(value))
+                        #print("{}".format(value))
                         required_data.append("{}".format(value))
 
                 product_description = soup_book.find("p", class_=None)
-                required_data.append(product_description.text)  # Description du produit .encode("utf-8")
+                if product_description is not None:
+                    product_description = product_description.string
+                    required_data.append(product_description.text)
+                else:
+                    product_description = "No description"
+                    required_data.append(product_description)
 
                 image = soup_book.find("img")
                 src = image["src"]
@@ -200,6 +209,9 @@ for category in (range(len(cleaned_links))):
         next_link = soup.find("a", string="next")  # We look for a next link
         if next_link is None:  # If no next link, we go to the next category (close the while loop)
             print("{} category scraped".format(actual_category))
+            if divmod(finished, 10) == (updates, 0):
+                updates += 1
+                print('Finished processing {} % of all events'.format(int(finished)))
             break
         # Otherwise, we join the current url by pasting the href to perform the pagination
         url_actuel = urljoin(url_actuel, next_link["href"])
