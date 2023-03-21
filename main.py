@@ -10,7 +10,7 @@ print("Hello, welcome to the Web Book Scrapping program made for the Books Onlin
       "This program will scrap all required and useful data from the website http://books.toscrape.com/.\n"
       "If you have any issues with the present program please send an email at : valentin.simioni.outlook.com\n")
 
-input("\n \n !Press enter to continue and scrap book data! ")
+input("\n \n                      !Press enter to continue and scrap book data! ")
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -61,7 +61,7 @@ STEP 2 : SCAN OF EACH CATEGORY LINKS BY APPLYING A SCRAPPING LOOP
 2.a Declaration of required elements + "for" loop creation (category range iteration, == 40)
 """
 
-liste_elements = ["product_page_urls", "title", "upc", "prices_inc_tax", "prices_ex_tax", "nb_available",
+liste_elements = ["product_page_urls", "title", "upc", "prices_inc_tax", "prices_ex_tax", "nb_available", "rating"
                   "product description", "category", "review", "image"]
 
 for category in (range(len(cleaned_links))):
@@ -139,6 +139,19 @@ for category in (range(len(cleaned_links))):
                     td = i.text
                     required_data.append(td)  # Upc, price, availability
 
+                reviews = {"one star": "star-rating One",
+                           "two stars": "star-rating Two",
+                           "three stars": "star-rating Three",
+                           "four stars": "star-rating Four",
+                           "five stars": "star-rating Five"}
+
+                rating = soup_book.find("div", class_= "col-sm-6 product_main")
+                for value in reviews.values():
+                    rating_par = rating.find("p", class_="{}".format(value))
+                    if rating_par is not None:
+                        print("{}".format(value))
+                        required_data.append("{}".format(value))
+
                 product_description = soup_book.find("p", class_=None)
                 required_data.append(product_description.text)  # Description du produit .encode("utf-8")
 
@@ -150,9 +163,10 @@ for category in (range(len(cleaned_links))):
                 required_data.append(cleaned_names[category])  # Category
 
                 del required_data[3]  # We delete the elements in excess (because of the scrapping of the table)
+                del required_data[5]
                 del required_data[6]
 
-                # print(required_data)
+                print(required_data)
 
                 """
                 2.e Formatting of the book title to save and name the corresponding image in jpg 
