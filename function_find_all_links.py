@@ -1,1 +1,0 @@
-print(was joke)
