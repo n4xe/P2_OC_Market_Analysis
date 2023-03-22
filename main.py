@@ -6,11 +6,11 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from utils import clinks
 
-print("Hello, welcome to the Web Book Scrapping program made for the Books Online company.\n"
+print("Hello, welcome to the Web Book Scraping program made for the Books Online company.\n"
       "This program will scrap all required and useful data from the website http://books.toscrape.com/.\n"
       "If you have any issues with the present program please send an email at : valentin.simioni@outlook.com\n")
 
-input("\n \n                      !Press enter to continue and scrap book data! \n \n  ")
+input("\n \n !Press enter to continue and scrap book data!")
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -36,7 +36,8 @@ for links in link_tags:
 
     dirty_category_names.append(a.text)  # Add of scraped but uncleaned category names
     dirty_category_links.append("http://books.toscrape.com/catalogue/category//" + href)
-    # Add of scraped but uncleaned category links by joining URL + scrapped HREF
+    # Add of scraped but uncleaned category links by joining URL + scraped HREF
+
 
 """
 1.b Cleaning of raw category names and links
@@ -55,25 +56,26 @@ category_links_dictionary = {"Names": cleaned_names, "Links": cleaned_links}
 # print(category_links_dictionary)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-STEP 2 : SCAN OF EACH CATEGORY LINKS BY APPLYING A SCRAPPING LOOP
+STEP 2 : SCAN OF EACH CATEGORY LINKS BY APPLYING A SCRAPING LOOP
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """
 2.a Declaration of required elements + "for" loop creation (category range iteration, == 40)
 """
 
-liste_elements = ["product_page_urls", "title", "upc", "prices_inc_tax", "prices_ex_tax", "nb_available", "rating"
+liste_elements = ["product_page_urls", "title", "upc", "prices_inc_tax", "prices_ex_tax", "nb_available", "rating",
                   "product description", "category", "review", "image"]
-events_count = len(cleaned_links)
-updates = 0
-for category in (range(len(cleaned_links))):
-    for i, e in enumerate(cleaned_links):
-        finished = 100 * (i / events_count)
 
+book_qty = soup.find("form", class_="form-horizontal")  # book quantity to display scraping achievement
+qty_string = book_qty.find("strong").text
+qty = int(qty_string)
+qty_scraped = 0
+
+for category in (range(len(cleaned_links))):
 
     # First ULR == 1st dict value == "travel" category link. Will take next one after the end of the loop.
     url_actuel = cleaned_links[category]
     actual_category = cleaned_names[category]
-    print(actual_category + " category is being scrapped")
+    print("\n" + actual_category + " category is being scraped")
 
     """
     2.b Creation of the data saving folder 
@@ -117,6 +119,9 @@ for category in (range(len(cleaned_links))):
             page_books.append("http://books.toscrape.com/catalogue/" + href_book)  # that we will join to url web page
             page_books = [e.replace('../', '') for e in page_books]
 
+            for books, item in enumerate(page_books):
+                qty_scraped += 1
+
             """
             2.d For each link of the list "page_books", list of all the books of the page, we will scrape all the 
             information we want by entering one by one in each book links
@@ -127,11 +132,11 @@ for category in (range(len(cleaned_links))):
                 soup_book = BeautifulSoup(page_request.content, 'html.parser')
                 product_page_url = page_books[elements]
 
-                # Data is the scrapped required data list
+
+                # Data is the scraped required data list
                 # at the end of each loop, it will be saved in the csv and then cleared
 
                 required_data = []
-
                 required_data.append(product_page_url)  # First element requested: url of the book
 
                 title = soup_book.find("h1")
@@ -171,11 +176,11 @@ for category in (range(len(cleaned_links))):
 
                 required_data.append(cleaned_names[category])  # Category
 
-                del required_data[3]  # We delete the elements in excess (because of the scrapping of the table)
+                del required_data[3]  # We delete the elements in excess (because of the scraping of the table)
                 del required_data[5]
                 del required_data[6]
 
-                print(required_data)
+
 
                 """
                 2.e Formatting of the book title to save and name the corresponding image in jpg 
@@ -203,15 +208,16 @@ for category in (range(len(cleaned_links))):
                 with open(path_file, 'a', encoding="utf-8") as csv_file:
                     writer = csv.writer(csv_file)
                     writer.writerow(required_data)
+                    #print(required_data)
                     required_data.clear()
                     page_books.clear()
 
         next_link = soup.find("a", string="next")  # We look for a next link
         if next_link is None:  # If no next link, we go to the next category (close the while loop)
             print("{} category scraped".format(actual_category))
-            if divmod(finished, 10) == (updates, 0):
-                updates += 1
-                print('Finished processing {} % of all events'.format(int(finished)))
+            remaining_qty = qty - qty_scraped
+            percentage_left = (qty_scraped/qty)*100
+            print(str(remaining_qty) + " book(s) left to scrap. \n" + "Achievement = " + str(percentage_left) + " %")
             break
         # Otherwise, we join the current url by pasting the href to perform the pagination
         url_actuel = urljoin(url_actuel, next_link["href"])
