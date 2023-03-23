@@ -31,14 +31,11 @@ Project description
       This is my first code and some errors may appear. Please send an email to valentin.simioni@outlook.com if there are things to fix.
       Some implementations would be useful ..
       
-How to install and Run the project :
+  How to install and Run the project :
 
-      You can download the main code hereafter, on my github with public access : https://github.com/n4xe/P2_OC_Market_Analysis/blob/master/main.py
-      Then, you need to download utils : 
-      Please install requirements from the requirements.txt file by writing "pip install -r requirements.txt" in your environment terminal. 
-
-      Python version : 3.10.7
-      You can now run the code. An informative message will be displayed on your screen, then, press enter to start the scraping.
+      1. Clone the repository
+      2. Install requirements (pip install -r requirements.txt)
+      3. Start the program (python main.py)
 
 Credits : 
 
