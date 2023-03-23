@@ -63,7 +63,7 @@ STEP 2 : SCAN OF EACH CATEGORY LINKS BY APPLYING A SCRAPING LOOP
 """
 
 liste_elements = ["product_page_urls", "title", "upc", "prices_inc_tax", "prices_ex_tax", "nb_available", "rating",
-                  "product description", "category", "review", "image"]
+                  "product description", "image", "category"]
 
 book_qty = soup.find("form", class_="form-horizontal")  # book quantity to display scraping achievement
 qty_string = book_qty.find("strong").text
