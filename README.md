@@ -1,7 +1,7 @@
 # P2_OC_Market_Analysis
 
 Project title : 
-Web book scraping program.
+      Web book scraping program.
 
 Project description
   
@@ -33,10 +33,13 @@ Project description
       
 How to install and Run the project :
 
-You can download the code hereafter, on my github with public access : https://github.com/n4xe/P2_OC_Market_Analysis/blob/master/main.py
-Python version : 3.10.7
-You can now run the code. An informative message will be displayed on your screen, then, press enter to start the scraping.
+      You can download the main code hereafter, on my github with public access : https://github.com/n4xe/P2_OC_Market_Analysis/blob/master/main.py
+      Then, you need to download utils : 
+      Please install requirements from the requirements.txt file by writing "pip install -r requirements.txt" in your environment terminal. 
+
+      Python version : 3.10.7
+      You can now run the code. An informative message will be displayed on your screen, then, press enter to start the scraping.
 
 Credits : 
 
-    Ait-Mlouk Addi : mentor, participated for the code improvement.
+      Ait-Mlouk Addi : mentor, participated for the code improvement.
