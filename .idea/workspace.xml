@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="25d0e468-d068-4f1d-983d-e625eef5550e" name="Changes" comment="ignoring extractions" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2LPCQNT1nnnhZEWIBDxzLEZGlO0" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "C:/Users/valen/Documents",
+    "settings.editor.selected.configurable": "Errors"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\valen\Documents" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.utils">
+    <configuration name="P2_OC_Extract_price_book" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="P2_OC_Market_Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\valen\PycharmProjects\P2_OC_Market_Analysis\P2_OC_Extract_price_book.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="P2_OC_Market_Analysis" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="P2_OC_Market_Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/P2_OC_Market_Analysis.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="P2_OC_Market_Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="P2_OC_Market_Analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.P2_OC_Market_Analysis" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.utils" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.utils" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="25d0e468-d068-4f1d-983d-e625eef5550e" name="Changes" comment="" />
+      <created>1675763314136</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1675763314136</updated>
+    </task>
+    <task id="LOCAL-00001" summary="with comments">
+      <created>1676301336564</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676301336564</updated>
+    </task>
+    <task id="LOCAL-00002" summary="with comments&#10;&#10;dictionnary created">
+      <created>1676897942795</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1676897942795</updated>
+    </task>
+    <task id="LOCAL-00003" summary="with comments&#10;&#10;Extract works&#10;need to store titles / prices in good csv file">
+      <created>1676900390845</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1676900390845</updated>
+    </task>
+    <task id="LOCAL-00004" summary="extraction + csv local files creation works&#10;next step is to store images in a folder.">
+      <created>1676908382078</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676908382078</updated>
+    </task>
+    <task id="LOCAL-00005" summary="images stored in a folder.&#10;project nearly finished">
+      <created>1677578377679</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1677578377679</updated>
+    </task>
+    <task id="LOCAL-00006" summary="commentaires en français ajoutés&#10;Nettoyé avant dernier meeting">
+      <created>1677591725442</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677591725442</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Nettoyage du nouveau script&#10;Débuts de commentaires">
+      <created>1679001408480</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1679001408480</updated>
+    </task>
+    <task id="LOCAL-00008" summary="works">
+      <created>1679059696397</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1679059696397</updated>
+    </task>
+    <task id="LOCAL-00009" summary="works&#10;avec tous les commentaires&#10;&#10;bugs de positions dans la liste rectifiés">
+      <created>1679073035577</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1679073035577</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Changes :&#10;- saving folder in the ENV&#10;- english comments&#10;- introducing script">
+      <created>1679395625421</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679395625421</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add :&#10;- review rating info">
+      <created>1679413952276</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1679413952276</updated>
+    </task>
+    <task id="LOCAL-00012" summary="add">
+      <created>1679434547939</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1679434547939</updated>
+    </task>
+    <task id="LOCAL-00013" summary="add :&#10;% scraping calculation + book qty left&#10;review rating">
+      <created>1679490784009</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1679490784009</updated>
+    </task>
+    <task id="LOCAL-00014" summary="minor changes">
+      <created>1679570421418</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1679570421418</updated>
+    </task>
+    <task id="LOCAL-00015" summary="last fix (root repository created)">
+      <created>1679650460160</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1679650460160</updated>
+    </task>
+    <task id="LOCAL-00016" summary="test for ignore">
+      <created>1679651148828</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1679651148828</updated>
+    </task>
+    <task id="LOCAL-00017" summary="ignoring extractions">
+      <created>1679652277349</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1679652277349</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="with comments" />
+    <MESSAGE value="with comments&#10;&#10;dictionnary created" />
+    <MESSAGE value="with comments&#10;&#10;Extract works&#10;need to store titles / prices in good csv file" />
+    <MESSAGE value="extraction + csv local files creation works&#10;next step is to store images in a folder." />
+    <MESSAGE value="images stored in a folder.&#10;project nearly finished" />
+    <MESSAGE value="commentaires en français ajoutés&#10;Nettoyé avant dernier meeting" />
+    <MESSAGE value="Nettoyage du nouveau script&#10;Débuts de commentaires" />
+    <MESSAGE value="works" />
+    <MESSAGE value="works&#10;avec tous les commentaires&#10;&#10;bugs de positions dans la liste rectifiés" />
+    <MESSAGE value="Changes :&#10;- saving folder in the ENV&#10;- english comments&#10;- introducing script" />
+    <MESSAGE value="add :&#10;- review rating info" />
+    <MESSAGE value="add" />
+    <MESSAGE value="add :&#10;% scraping calculation + book qty left&#10;review rating" />
+    <MESSAGE value="minor changes" />
+    <MESSAGE value="last fix (root repository created)" />
+    <MESSAGE value="test for ignore" />
+    <MESSAGE value="ignoring extractions" />
+    <option name="LAST_COMMIT_MESSAGE" value="ignoring extractions" />
+  </component>
+</project>
