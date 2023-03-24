@@ -11,18 +11,3 @@ def clinks(list_to_clean, to_remove):
     m = 2
     del cleaned_list[:m]
     return (cleaned_list)
-
-"""
-#python program to check if a directory exists
-import os
-path = "pythonprog"
-# Check whether the specified path exists or not
-isExist = os.path.exists(path)
-if not isExist:
-
-   # Create a new directory because it does not exist
-   os.makedirs(path)
-   print("The new directory is created!")
-"""
-
-
